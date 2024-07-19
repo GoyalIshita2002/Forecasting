@@ -6,6 +6,7 @@ const authenticateToken = require('../middleware/authenticateToken.js');
 const { processCSV } = require('../services/csvprocessor.js');
 
 const { CreateUser, GetUser, GetUserById, SigninUser } = require('../controller/user/user.js');
+const {GetProduct,GetProductById } = require('../controller/product/product.js');
 
 router.post('/users', CreateUser);
 router.post('/signin', SigninUser);
@@ -13,6 +14,10 @@ router.get('/users', GetUser);
 
 router.use(authenticateToken);
 router.get('/user', GetUserById);
+router.get('/products', GetProduct);
+router.get('/product/:id', GetProductById);
+
+
 
 router.post('/upload-csv', upload.single('file'), (req, res, next) => {
   if (!req.file) {

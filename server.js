@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express')
 const { connectdb } = require('./connection/connection.js');
 const routes = require('./router/router.js');
@@ -7,6 +8,7 @@ const upload = multer({ dest: 'uploads/' });
 const app = express()
 const port = 3000
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
