@@ -9,6 +9,7 @@ const { CreateUser, GetUser, GetUserById, SigninUser } = require('../controller/
 const {GetProduct,GetProductByIdOrName ,StockProduct} = require('../controller/product/product.js');
 const {GetSale,GetSaleById ,CreateSale,ProductOverallSale,Saleanalysis,SpecificSaleMontly} = require('../controller/sale/sales.js');
 const {TotalInventory} = require('../controller/sale/inventory.js');
+const {returnrisk} = require('../controller/Anaylises/returnrisk.js')
 
 router.post('/users', CreateUser);
 router.post('/signin', SigninUser);
@@ -26,6 +27,8 @@ router.get('/salemonthly', SpecificSaleMontly);
 router.get('/sale', GetSaleById);
 router.post('/sale',CreateSale);
 router.get('/inventory', TotalInventory);
+router.get('/returnrisk', returnrisk);
+
 
 router.post('/upload-csv', upload.single('file'), (req, res, next) => {
   if (!req.file) {
