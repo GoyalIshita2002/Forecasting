@@ -7,7 +7,7 @@ const { processCSV } = require('../services/csvprocessor.js');
 
 const { CreateUser, GetUser, GetUserById, SigninUser } = require('../controller/user/user.js');
 const {GetProduct,GetProductByIdOrName ,StockProduct} = require('../controller/product/product.js');
-const {GetSale,GetSaleById ,CreateSale,ProductOverallSale} = require('../controller/sale/sales.js');
+const {GetSale,GetSaleById ,CreateSale,ProductOverallSale,Saleanalysis,SpecificSaleMontly} = require('../controller/sale/sales.js');
 
 router.post('/users', CreateUser);
 router.post('/signin', SigninUser);
@@ -20,6 +20,8 @@ router.get('/product', GetProductByIdOrName);
 router.get('/stock', StockProduct);
 router.get('/sales', GetSale);
 router.get('/salename', ProductOverallSale);
+router.get('/saleanalysis', Saleanalysis);
+router.get('/salemonthly', SpecificSaleMontly);
 router.get('/sale', GetSaleById);
 router.post('/sale',CreateSale);
 
