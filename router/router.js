@@ -8,6 +8,7 @@ const { processCSV } = require('../services/csvprocessor.js');
 const { CreateUser, GetUser, GetUserById, SigninUser } = require('../controller/user/user.js');
 const {GetProduct,GetProductByIdOrName ,StockProduct} = require('../controller/product/product.js');
 const {GetSale,GetSaleById ,CreateSale,ProductOverallSale,Saleanalysis,SpecificSaleMontly} = require('../controller/sale/sales.js');
+const {TotalInventory} = require('../controller/sale/inventory.js');
 
 router.post('/users', CreateUser);
 router.post('/signin', SigninUser);
@@ -24,6 +25,7 @@ router.get('/saleanalysis', Saleanalysis);
 router.get('/salemonthly', SpecificSaleMontly);
 router.get('/sale', GetSaleById);
 router.post('/sale',CreateSale);
+router.get('/inventory', TotalInventory);
 
 router.post('/upload-csv', upload.single('file'), (req, res, next) => {
   if (!req.file) {
