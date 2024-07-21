@@ -1,5 +1,4 @@
 const { Sale,Product } = require('../../connection/connection.js');
-const product = require('../../model/product.js');
 const { Sequelize, Op} = require('sequelize');
 const moment = require('moment');
 

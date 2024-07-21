@@ -10,6 +10,7 @@ const {GetProduct,GetProductByIdOrName ,StockProduct} = require('../controller/p
 const {GetSale,GetSaleById ,CreateSale,ProductOverallSale,Saleanalysis,SpecificSaleMontly} = require('../controller/sale/sales.js');
 const {TotalInventory} = require('../controller/sale/inventory.js');
 const {returnrisk} = require('../controller/Anaylises/returnrisk.js')
+const {SpecificSaleyearly,SpecificSaleWeekly } = require('../controller/sale/timeanalysis.js')
 
 router.post('/users', CreateUser);
 router.post('/signin', SigninUser);
@@ -28,6 +29,9 @@ router.get('/sale', GetSaleById);
 router.post('/sale',CreateSale);
 router.get('/inventory', TotalInventory);
 router.get('/returnrisk', returnrisk);
+router.get('/saleyearly', SpecificSaleyearly);
+router.get('/saleweekly', SpecificSaleWeekly );
+
 
 
 router.post('/upload-csv', upload.single('file'), (req, res, next) => {
