@@ -11,6 +11,7 @@ const {GetSale,GetSaleById ,CreateSale,ProductOverallSale,Saleanalysis,SpecificS
 const {TotalInventory} = require('../controller/sale/inventory.js');
 const {returnrisk} = require('../controller/Anaylises/returnrisk.js')
 const {SpecificSaleyearly,SpecificSaleWeekly } = require('../controller/sale/timeanalysis.js')
+const {predictOutOfStockDate,demandOnSpecificDate,singleProductDemand,stockRequirementOnDate,seasonalForecasting,Forecastingoption} = require('../controller/Forecastdemand/demand.js')
 
 router.post('/users', CreateUser);
 router.post('/signin', SigninUser);
@@ -31,6 +32,10 @@ router.get('/inventory', TotalInventory);
 router.get('/returnrisk', returnrisk);
 router.get('/saleyearly', SpecificSaleyearly);
 router.get('/saleweekly', SpecificSaleWeekly );
+router.get('/predict-out-of-stock/:productId', predictOutOfStockDate );
+router.get('/demand', demandOnSpecificDate);
+router.get('/products/:productId/demand', singleProductDemand);
+router.get('/products/:productId/stock-requirement', stockRequirementOnDate);
 
 
 
