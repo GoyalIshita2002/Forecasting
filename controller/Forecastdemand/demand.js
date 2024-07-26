@@ -21,8 +21,6 @@ const calculateMovingAverage = (sales, days) => {
     return overallAverage;
 };
   
-
-// Helper function for exponential smoothing
 const calculateExponentialSmoothing = (data, alpha) => {
   const result = [{ date: data[0].salesDate, value: data[0].quantitySold }];
   for (let i = 1; i < data.length; i++) {
@@ -32,7 +30,6 @@ const calculateExponentialSmoothing = (data, alpha) => {
   return result;
 };
 
-// Helper function for seasonal decomposition
 const seasonalDecomposition = (data, period) => {
   const seasonal = [];
   const trend = [];
@@ -88,8 +85,7 @@ const predictOutOfStockDate = async (req, res) => {
             return res.status(200).json({ productName, message: "No sales data available to predict out-of-stock date" });
         }
 
-        // Use moving average to calculate average daily sales more accurately
-        const daysForMovingAverage = 1; // You can adjust this value based on typical sales cycle length
+        const daysForMovingAverage = 1; 
         const averageDailySales = calculateMovingAverage(salesData, daysForMovingAverage);
 
         if (averageDailySales === 0) {
@@ -102,23 +98,20 @@ const predictOutOfStockDate = async (req, res) => {
   
         return res.status(200).json({
             productName,
-            outOfStockDate: outOfStockDate.toISOString().split('T')[0] // Format the date to YYYY-MM-DD
+            outOfStockDate: outOfStockDate.toISOString().split('T')[0] 
         });
     } catch (error) {
         return res.status(500).json({ message: "Error predicting out-of-stock date", error: error.message });
     }
 };
 
-// 2. Demand on a specific date for all products
 const demandOnSpecificDate = async (req, res) => {
     try {
-      const { date } = req.query;  // Extract date from query parameters
+      const { date } = req.query;  
   
       if (!date) {
         return res.status(400).json({ message: "Date parameter is required." });
       }
-  
-      // Parse the date string with strict parsing
       const parsedDate = moment(date, 'DD-MM-YYYY', true);
   
       if (!parsedDate.isValid()) {
@@ -126,8 +119,7 @@ const demandOnSpecificDate = async (req, res) => {
       }
   
       const formattedDate = parsedDate.format('YYYY-MM-DD');
-  
-      // Fetch sales data for the specified date
+
       const salesData = await Sale.findAll({
         where: {
           salesDate: {
@@ -136,8 +128,7 @@ const demandOnSpecificDate = async (req, res) => {
         },
         include: [Product]
       });
-  
-      // Aggregate sales data by product name
+
       const demandMap = {};
       salesData.forEach(sale => {
         const { productId, quantitySold, Product: { name: productName } } = sale;
@@ -151,8 +142,7 @@ const demandOnSpecificDate = async (req, res) => {
         demandMap[productName].productIds.add(productId);
         demandMap[productName].totalQuantitySold += quantitySold;
       });
-  
-      // Convert demandMap to an array
+
       const demand = Object.values(demandMap).map(d => ({
         productName: d.productName,
         productIds: Array.from(d.productIds),
@@ -268,9 +258,7 @@ const demandOnSpecificDate = async (req, res) => {
     }
   };
   
-  
 
-// 5. Seasonal forecasting
 const seasonalForecasting = async (req, res) => {
   try {
     const { productId } = req.params;
@@ -283,7 +271,7 @@ const seasonalForecasting = async (req, res) => {
       quantitySold: sale.quantitySold,
       salesDate: sale.salesDate
     }));
-    const period = 30; // monthly seasonality
+    const period = 30; 
     const { seasonal, trend, residual } = seasonalDecomposition(data, period);
     return res.status(200).json({ productId, trend, seasonal, residual });
   } catch (error) {
@@ -294,7 +282,7 @@ const seasonalForecasting = async (req, res) => {
 const Forecastingoption = async (req, res) => {
     try {
       const { productId } = req.params;
-      const { method = 'seasonal' } = req.query; // Default method is 'seasonal'
+      const { method = 'seasonal' } = req.query; 
   
       const salesData = await Sale.findAll({
         where: { productId },
@@ -309,13 +297,13 @@ const Forecastingoption = async (req, res) => {
   
       let result;
       if (method === 'movingAverage') {
-        const windowSize = 7; // Example window size
+        const windowSize = 7; 
         result = calculateMovingAverage(data, windowSize);
       } else if (method === 'exponentialSmoothing') {
-        const alpha = 0.5; // Example alpha value
+        const alpha = 0.5; 
         result = calculateExponentialSmoothing(data, alpha);
       } else {
-        const period = 30; // monthly seasonality
+        const period = 30; 
         const { seasonal, trend, residual } = seasonalDecomposition(data, period);
         result = { trend, seasonal, residual };
       }
